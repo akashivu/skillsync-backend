@@ -1,9 +1,11 @@
 package com.skillsync.backend.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
+@Data
 @Entity
 @Table(name="teams")
 public class Team {
@@ -18,6 +20,6 @@ public class Team {
     joinColumns = @JoinColumn(name="team_id"),
     inverseJoinColumns = @JoinColumn(name="user_id")
     )
-    private Set<User> membaers = new HashSet<>();
+    private Set<User> members = new HashSet<>();
 
 }
