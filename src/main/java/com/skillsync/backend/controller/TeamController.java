@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -41,7 +43,17 @@ public class TeamController {
         teamRepo.save(team);
         return ResponseEntity.ok("Team created successfully");
     }
+    @GetMapping("/my")
+    public ResponseEntity<List<Team>> getMyTeams(@RequestHeader("Authorization") String token) {
+        String email = jwtService.extractUsername(token.substring(7));
+        User user = userRepo.findByEmail(email).orElseThrow();
 
+        List<Team> teams = teamRepo.findAll().stream()
+                .filter(team -> team.getMembers().contains(user))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(teams);
+    }
 
 }
 
