@@ -1,19 +1,22 @@
 package com.skillsync.backend.model;
 
 import jakarta.persistence.*;
+
 import lombok.Data;
+
 
 import java.util.HashSet;
 import java.util.Set;
 @Data
 @Entity
 @Table(name="teams")
+
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String projectGaol;
+    private String projectGoal;
     @ManyToMany
     @JoinTable(
     name="team members",

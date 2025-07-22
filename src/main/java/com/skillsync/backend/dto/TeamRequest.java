@@ -9,5 +9,5 @@ import java.util.List;
 public class TeamRequest {
     private String name;
     private String projectGoal;
-    private List<String> membersEmail;
+    private List<String> memberEmails;
 }
