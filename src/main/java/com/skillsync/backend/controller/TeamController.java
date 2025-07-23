@@ -5,10 +5,10 @@ import com.skillsync.backend.dto.TeamRequest;
 import com.skillsync.backend.repository.TeamRepository;
 import com.skillsync.backend.repository.UserRepository;
 import com.skillsync.backend.service.JWTService;
+import com.skillsync.backend.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +20,7 @@ public class TeamController {
     @Autowired private TeamRepository teamRepo;
     @Autowired private UserRepository userRepo;
     @Autowired private JWTService jwtService;
+    @Autowired private TeamService teamService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createTeam(@RequestBody TeamRequest req, @RequestHeader("Authorization") String token) {
@@ -29,11 +30,8 @@ public class TeamController {
         Team team = new Team();
         team.setName(req.getName());
         team.setProjectGoal(req.getProjectGoal());
-
-        // Add creator to team
         team.getMembers().add(creator);
 
-        // Add other invited users
         if (req.getMemberEmails() != null) {
             for (String userEmail : req.getMemberEmails()) {
                 userRepo.findByEmail(userEmail).ifPresent(team.getMembers()::add);
@@ -52,6 +50,11 @@ public class TeamController {
                 .filter(team -> team.getMembers().contains(user))
                 .collect(Collectors.toList());
 
+        return ResponseEntity.ok(teams);
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<Team>> searchTeams(@RequestParam(required = false) String skill,@RequestParam(required = false) String location){
+        List<Team> teams=teamService.searchTeam(skill,location);
         return ResponseEntity.ok(teams);
     }
 

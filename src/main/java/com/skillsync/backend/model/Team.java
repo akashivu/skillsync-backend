@@ -17,6 +17,7 @@ public class Team {
     private Long id;
     private String name;
     private String projectGoal;
+    private String location;
     @ManyToMany
     @JoinTable(
     name="team members",
@@ -24,5 +25,13 @@ public class Team {
     inverseJoinColumns = @JoinColumn(name="user_id")
     )
     private Set<User> members = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+    name="team_skills",
+    joinColumns = @JoinColumn(name="team_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    private Set<Skill> skills= new HashSet<>();
 
 }
