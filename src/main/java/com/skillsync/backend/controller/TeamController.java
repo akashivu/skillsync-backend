@@ -8,6 +8,8 @@ import com.skillsync.backend.service.JWTService;
 import com.skillsync.backend.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,6 +59,12 @@ public class TeamController {
         List<Team> teams=teamService.searchTeam(skill,location);
         return ResponseEntity.ok(teams);
     }
-
+@GetMapping("/myTeams")
+@PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<Team>> getMyTeams(Authentication authentication){
+        String username=authentication.getName();
+        List<Team> teams= teamService.getMyTeamsByuser(username);
+        return  ResponseEntity.ok(teams);
+}
 }
 
