@@ -47,4 +47,21 @@ public class JoinRequestService {
         Team team = teamRepository.findById(teamId).orElseThrow();
         return joinRequsetRepository.findByTeamAndStatus(team, "PENDING");
     }
+    public void acceptRequest(Long requestId) {
+        JoinRequest request = joinRequsetRepository.findById(requestId).orElseThrow();
+        Team team = request.getTeam();
+        User user = request.getRequester();
+
+
+        team.getMembers().add(user);
+        request.setStatus("ACCEPTED");
+
+        teamRepository.save(team);
+        joinRequsetRepository.save(request);
+    }
+    public void rejectRequest(Long requestId) {
+        JoinRequest request = joinRequsetRepository.findById(requestId).orElseThrow();
+        request.setStatus("REJECTED");
+        joinRequsetRepository.save(request);
+    }
 }

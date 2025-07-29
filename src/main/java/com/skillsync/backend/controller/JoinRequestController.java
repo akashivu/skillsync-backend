@@ -23,5 +23,14 @@ public class JoinRequestController {
     public ResponseEntity<List<JoinRequest>> getAllRequest(@PathVariable Long teamId){
         return ResponseEntity.ok(joinRequestService.getAllRequest(teamId));
     }
-
+    @PostMapping("/request/{id}/accept")
+    public ResponseEntity<String> acceptRequest(@PathVariable Long id){
+        joinRequestService.acceptRequest(id);
+        return ResponseEntity.ok("request accepted");
+    }
+    @PostMapping("/request/{id}/reject")
+    public ResponseEntity<String> rejectRequest(@PathVariable Long id) {
+        joinRequestService.rejectRequest(id);
+        return ResponseEntity.ok("Request rejected");
+    }
 }
