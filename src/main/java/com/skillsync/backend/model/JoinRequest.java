@@ -1,8 +1,11 @@
 package com.skillsync.backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.time.LocalDateTime;
+@Data
 @Entity
 public class JoinRequest {
     @Id

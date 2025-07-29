@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface JoinRequsetRepository extends JpaRepository<JoinRequest,Long> {
     List<JoinRequest> findByTeamAndStatus(Team team, String status);
-    boolean existByRequesterAndTeamAndStatus(User requseter, Team team, String status);
+    boolean existsByRequesterAndTeamAndStatus(User requseter, Team team, String status);
 }

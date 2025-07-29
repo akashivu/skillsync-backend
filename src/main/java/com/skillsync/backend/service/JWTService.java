@@ -1,10 +1,14 @@
 package com.skillsync.backend.service;
 
+import com.skillsync.backend.model.User;
+import com.skillsync.backend.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -17,6 +21,8 @@ public class JWTService {
     private String secretKey;
     @Value("${jwt.expiration}")
     private Long jwtExpirationTimeInMs;
+    @Autowired
+    private UserRepository userRepository;
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
@@ -54,4 +60,7 @@ public class JWTService {
                 .parseClaimsJws(token)
                 .getBody();
   }
+
+
+
 }
