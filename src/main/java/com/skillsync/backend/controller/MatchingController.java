@@ -28,16 +28,16 @@ public class MatchingController {
 
     @GetMapping("/suggestions")
     public ResponseEntity<List<UserDto>> getMatchingUsers(@RequestHeader("Authorization") String token) {
-        // Extract email from JWT
+
         String email = jwtService.extractUsername(token.substring(7));
         User currentUser = userRepo.findByEmail(email).orElseThrow();
 
-        // Get current user's skill names
+
         Set<String> currentUserSkills = currentUser.getSkills().stream()
                 .map(Skill::getName)
                 .collect(Collectors.toSet());
 
-        // Get all users and filter based on skill match
+
         List<User> allUsers = userRepo.findAll();
 
         List<UserDto> matchedUsers = allUsers.stream()
