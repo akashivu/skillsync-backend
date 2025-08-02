@@ -15,9 +15,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    private LocalDateTime createdAt;
-    @ManyToMany
+    private LocalDateTime timestamp;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
     private User sender;
     @ManyToOne
+    @JoinColumn(name = "team_id")
     private Team team;
 }
